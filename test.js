@@ -1,7 +1,4 @@
-let antimatter = new Decimal(10);
+let antimatter = new Decimal("1.00e1234567890");
 
-let infinityTest = new Decimal("1e1000000");
-
-alert("--- BREAK_INFINITY.JS TEST ---");
-alert("ANTIMATTER: " + antimatter.toString());
-alert("COSMIC NUMBER: " + infinityTest.toString());
+console.log("--- FORMAT TEST ---");
+console.log("FORMATTED VERY BIG NUMBER:\n" + format(antimatter));
