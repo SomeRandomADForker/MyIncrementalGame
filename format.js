@@ -2,6 +2,10 @@
  * @param {import("./index").default} dcNumber
  */
 function format(dcNumber) {
+    if (!(dcNumber instanceof Decimal)) {
+        dcNumber = new Decimal(dcNumber);
+    }
+    
     // < 1.00e6 (1,000,000)
     if (dcNumber.lt(new Decimal("1e6"))) {
         return dcNumber.toFixed(2);
