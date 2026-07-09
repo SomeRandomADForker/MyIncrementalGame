@@ -35,7 +35,7 @@ function totalGeneratorCost(id) {
 }
 
 function buyGenerator(id) {
-    if (id < 1 || id > 2) throw new RangeError("Generator id must be an number from 1-2!");
+    if (id < 1 || id > 3) throw new RangeError("Generator id must be an number from 1-3!");
 
     const totalCost = totalGeneratorCost(id);
     const gen = player.generators[id - 1];
