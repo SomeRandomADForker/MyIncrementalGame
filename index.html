@@ -8,15 +8,22 @@
     </head>
     <body>
         <h1>My Incremental Game!</h1>
-        <p id="scoreDisplay">You have Loading... Score</p>
+        <p id="scoreDisplay">You have 0.00 Score</p>
         <button onclick="increment()">+1 Score!</button>
 
-        <br>
+        <br><br>
 
         <div>
             <div>
                 <button onclick="buyGenerator(1)" id="gen1Btn">Buy 1st Generator (Cost: 10.00 Score)</button>
+                <br>
                 <span id="gen1Info">1st Generator: 0.00 (0)</span>
+            </div>
+            <br>
+            <div>
+                <button onclick="buyGenerator(2)" id="gen2Btn">Buy 2nd Generator (Cost: 100.00 Score)</button>
+                <br>
+                <span id="gen2Info">2nd Generator: 0.00 (0)</span>
             </div>
         </div>
 

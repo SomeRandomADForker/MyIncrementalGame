@@ -3,7 +3,13 @@ let player = {
     generators: [
         {
             initialCost: new Decimal(10),
-            costMultiplier: new Decimal(1.25), // maybe i'll scrap this and switch into 10-buy mode, but we'll see that
+            costMultiplier: new Decimal(1.1), // maybe i'll scrap this and switch into 10-buy mode, but we'll see that
+            totalAmount: new Decimal(0),
+            timesBought: 0,
+        },
+        {
+            initialCost: new Decimal(100),
+            costMultiplier: new Decimal(1.2), // again, i'll have to think about this
             totalAmount: new Decimal(0),
             timesBought: 0,
         },
@@ -19,11 +25,11 @@ function increment() {
 function totalGeneratorCost(id) {
     const gen = player.generators[id - 1]
 
-    return gen.initialCost.mul(Decimal.pow(gen.costMultiplier, gen.totalAmount));
+    return gen.initialCost.mul(Decimal.pow(gen.costMultiplier, gen.timesBought));
 }
 
 function buyGenerator(id) {
-    if (id < 1 || id > 2) throw new RangeError("Generator id must be an number from 1-1!");
+    if (id < 1 || id > 2) throw new RangeError("Generator id must be an number from 1-2!");
 
     const totalCost = totalGeneratorCost(id);
     const gen = player.generators[id - 1];
@@ -38,22 +44,36 @@ function buyGenerator(id) {
     }
 }
 
+function getNumericPositionString(num) {
+    if (num == 1) return "1st";
+    else if (num == 2) return "2nd";
+    else if (num == 3) return "3rd";
+    else return `${num}th`;
+}
+
 function updateUI() {
     const scoreDisplay = document.getElementById("scoreDisplay");
 
     scoreDisplay.innerText = "You have " + format(player.score) + " Score";
+
+    const gens = player.generators;
+
+    for (let i = 0; i < player.generators.length; i++) {
+        const gen = player.generators[i];
+
+        const btnId = `gen${i + 1}Btn`;
+        const infoId = `gen${i + 1}Info`;
+
+        document.getElementById(btnId).innerText = `Buy ${getNumericPositionString(i + 1)} Generator (Cost: ${format(totalGeneratorCost(i + 1))} Score)`;
+        document.getElementById(infoId).innerText = `${getNumericPositionString(i + 1)} Generator: ${format(gens[i].totalAmount)} (${gens[i].timesBought})`;
+    }
 }
 
 function gameLoop() {
     const gens = player.generators;
 
-    const gen1Btn = document.getElementById("gen1Btn");
-    const gen1Info = document.getElementById("gen1Info");
-
-    gen1Btn.innerText = `Buy 1st Generator (Cost: ${format(totalGeneratorCost(1))} Score)`;
-    gen1Info.innerText = `1st Generator: ${format(gens[0].totalAmount)} (${gens[0].timesBought})`;
-
     player.score = player.score.plus(gens[0].totalAmount.div(20));
+    gens[0].totalAmount = gens[0].totalAmount.plus(gens[1].totalAmount.div(200)); // 20 (ticks/s) * 10 (slow prod) = 200 (total)
 
     updateUI();
 }
