@@ -13,6 +13,12 @@ let player = {
             totalAmount: new Decimal(0),
             timesBought: 0,
         },
+        {
+            initialCost: new Decimal(1000),
+            costMultiplier: new Decimal(1.3), // maybe i should switch to 10-buy mode
+            totalAmount: new Decimal(0),
+            timesBought: 0,
+        },
     ],
 };
 
@@ -73,7 +79,10 @@ function gameLoop() {
     const gens = player.generators;
 
     player.score = player.score.plus(gens[0].totalAmount.div(20));
-    gens[0].totalAmount = gens[0].totalAmount.plus(gens[1].totalAmount.div(200)); // 20 (ticks/s) * 10 (slow prod) = 200 (total)
+
+    // 20 (ticks/s) * 10 (slow prod) = 200 (total)
+    gens[1].totalAmount = gens[1].totalAmount.plus(gens[2].totalAmount.div(200));
+    gens[0].totalAmount = gens[0].totalAmount.plus(gens[1].totalAmount.div(200));
 
     updateUI();
 }
